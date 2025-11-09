@@ -168,7 +168,7 @@ backToDashboardButton.addEventListener("click", () => {
 
 const initialUser = await client.auth.getUser();
 
-if (initialUser == null) {
+if (initialUser.data.user == null) {
     showLogin();
 } else {
     showAdminDashboard();
