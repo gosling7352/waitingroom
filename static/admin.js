@@ -45,7 +45,10 @@ function showQrCode(exchange) {
     loginContainer.style.display = "none";
     adminDashboardContainer.style.display = "none";
 
-    const origin = window.location.origin;
+    const originSuffix = window.location.host.endsWith("github.io")
+        ? window.location.pathname.split("/").slice(0, 3).join("/")
+        : "";
+    const origin = window.location.origin + originSuffix;
     const url = `${origin}?e=${exchange.id}`;
 
     qrCodeDisplay.innerHTML = "";
