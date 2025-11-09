@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Card Exchange</title>
+        <!-- <link rel="stylesheet" href="index.css" /> -->
+        <link rel="stylesheet" href="admin.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+        <script src="qrcode.min.js" defer></script>
+        <script src="admin.js" type="module" defer></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Waiting Room</h1>
+
+            <h2 id="welcome-subheading"></h2>
+
+            <div id="login-container" style="display: none">
+                <div class="input-row">
+                    <label for="email-input">Email</label>
+                    <input type="text" id="email-input" placeholder="Email" />
+                </div>
+                <div class="input-row">
+                    <label for="password-input">Password</label>
+                    <input
+                        type="password"
+                        id="password-input"
+                        placeholder="Password"
+                    />
+                </div>
+                <button type="button" id="submit-login-button">Log in</button>
+            </div>
+
+            <div id="admin-dashboard-container" style="display: none">
+                <button type="button" id="logout-button">Log out</button>
+
+                <h3>Create Exchange</h3>
+                <div id="create-exchange-container">
+                    <input type="date" id="create-exchange-date-input" />
+                    <button id="create-exchange-button">Create Exchange</button>
+                </div>
+
+                <h3>Last Exchanges</h3>
+                <ul id="last-exchanges-container"></ul>
+            </div>
+
+            <div id="qr-code-container" style="display: none">
+                <button type="button" id="back-to-dashboard-button">
+                    Back to the dashboard
+                </button>
+
+                <div id="qr-code-display"></div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+body {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+.container {
+    padding: 2rem 1rem;
+}
+
+h1 {
+    font-size: 1.75rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+.ticket {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem 1rem;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#error-display {
+    color: #b30000;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+#date-display {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0;
+}
+
+#number-display {
+    font-size: 5rem;
+    font-weight: bold;
+    color: #3366cc;
+    margin: 0;
+}
+
+#draw-time-display {
+    font-size: 1rem;
+    color: #333;
+    margin: 0;
+}
+
+button {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+    margin: 20px auto;
+    font-size: 1.5rem;
+}
+
+#qr-code {
+    /* display: block; */
+    /* width: 100%; */
+    /* max-width: 400px; */
+    /* box-sizing: border-box; */
+    display: flex;
+    justify-content: center;
+}
