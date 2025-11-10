@@ -18,6 +18,28 @@ const qrCodeContainer = document.getElementById("qr-code-container");
 const qrCodeDisplay = document.getElementById("qr-code-display");
 
 /**
+ * @template {keyof HTMLElementTagNameMap} K
+ * @param {K} tagName
+ * @param {Partial<HTMLElementTagNameMap[K]> & {children?: Iterable<HTMLElement | boolean | null | undefined>}?} options
+ * @returns {HTMLElementTagNameMap[K]}
+ */
+function tag(tagName, options) {
+    const element = document.createElement(tagName);
+    if (options) {
+        const { children, ...restOptions } = options;
+        if (children) {
+            for (const child of children) {
+                if (child) {
+                    element.appendChild(child);
+                }
+            }
+        }
+        Object.assign(element, restOptions);
+    }
+    return element;
+}
+
+/**
  * @typedef {Object} Exchange
  * @property {string} id A UUID represented as a 36 character string.
  * @property {Date} date
@@ -127,7 +149,7 @@ const lastExchangesContainer = document.getElementById(
 );
 
 async function renderLastExchanges() {
-    const { error, data: exchanges } = await client
+    const { error, data: rawExchanges } = await client
         .from("exchanges")
         .select("id, date")
         .order("date", { ascending: false })
@@ -138,24 +160,112 @@ async function renderLastExchanges() {
         return;
     }
 
+    /** @type Exchange[] */
+    const exchanges = rawExchanges.map((e) => ({
+        id: e.id,
+        date: new Date(e.date),
+    }));
+
     lastExchangesContainer.innerHTML = "";
-    for (const exchange of exchanges) {
-        const listItem = document.createElement("li");
-        const date = new Date(exchange.date);
-        listItem.classList.add("last-exchanges-entry");
-        const span = document.createElement("span");
-        span.innerText = date.toLocaleDateString();
-        listItem.appendChild(span);
-        const showQrCodeButton = document.createElement("button");
-        showQrCodeButton.type = "button";
-        showQrCodeButton.addEventListener("click", () =>
-            showQrCode({
-                id: exchange.id,
-                date,
-            }),
+
+    /**
+     * @param {number} index
+     * @param {Exchange} exchange
+     * @param {HTMLUListElement} listItem
+     */
+    function showTransferContainer(index, exchange, listItem) {
+        const existingContainers = lastExchangesContainer.querySelectorAll(
+            ".transfer-queue-to-exchange-container",
         );
-        showQrCodeButton.innerText = "Print the QR-Code";
-        listItem.appendChild(showQrCodeButton);
+        for (const existingContainer of existingContainers) {
+            existingContainer.remove();
+        }
+
+        const numberInput = tag("input", {
+            placeholder: "Last exchanged number",
+            type: "number",
+            min: 0,
+        });
+        const exchangeSelect = tag("select", {
+            placeholder: "New exchange",
+            value: index === 0 ? "" : exchanges[0].id,
+            children: exchanges.entries().map(([innerIndex, exchange]) => {
+                if (innerIndex === index) return;
+                return tag("option", {
+                    value: exchange.id,
+                    text: exchange.date.toLocaleDateString(),
+                });
+            }),
+        });
+
+        const transferContainer = tag("div", {
+            className: "transfer-queue-to-exchange-container",
+            children: [
+                numberInput,
+                exchangeSelect,
+                tag("button", {
+                    innerText: "Transfer",
+                    onclick: async () => {
+                        let number;
+                        try {
+                            number = Number(numberInput.value);
+                        } catch (_) {
+                            console.log("Got invalid number.");
+                            // TODO: show error
+                            return;
+                        }
+                        if (exchangeSelect.value === "") {
+                            console.log("Target exchange wasn't selected");
+                            // TODO: show error
+                            return;
+                        }
+
+                        let { error } = await client.rpc(
+                            "transfer-exchange-queue",
+                            {
+                                last_exchanged_number: number,
+                                source_exchange: exchange.id,
+                                target_exchange: exchangeSelect.value,
+                            },
+                        );
+                        if (error) {
+                            console.error(error);
+                            // TODO: show error
+                            return;
+                        }
+                        renderLastExchanges();
+                    },
+                }),
+            ],
+        });
+
+        listItem.appendChild(transferContainer);
+    }
+
+    for (const [index, exchange] of exchanges.entries()) {
+        const listItem = tag("li", {
+            className: "last-exchanges-entry",
+            children: [
+                tag("div", {
+                    children: [
+                        tag("span", {
+                            innerText: exchange.date.toLocaleDateString(),
+                        }),
+                        tag("button", {
+                            innerText: "Print the QR-Code",
+                            onclick: () => showQrCode(exchange),
+                        }),
+                    ],
+                }),
+                exchanges.length > 1 &&
+                    tag("button", {
+                        innerText: "Transfer unexchanged numbers",
+                        onclick: () =>
+                            showTransferContainer(index, exchange, listItem),
+                    }),
+            ],
+        });
+
         lastExchangesContainer.appendChild(listItem);
     }
 }
