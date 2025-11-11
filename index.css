@@ -22,9 +22,11 @@
     --clr-ticket-outline: #4268ff;
 
     --border-radius: 0.5rem;
+
+    --max-width: 500px;
 }
 
-@media (min-width: 24rem) {
+@media (min-width: 25rem) {
     :root {
         font-size: 1.25rem;
     }
@@ -48,7 +50,6 @@ body {
 
 .container {
     padding: 1rem 1.25rem;
-    max-width: 500px;
     margin: 0 auto;
 }
 
@@ -60,6 +61,7 @@ h1 {
     font-size: 2.5rem;
     line-height: 1;
     margin: 0 auto 1rem;
+    max-width: var(--max-width);
 }
 
 h2 {
@@ -82,6 +84,7 @@ h2 {
     --ticket-outline-inset: 15%;
     --ticket-number-height-fraction: 62%;
     width: 100%;
+    max-width: var(--max-width);
     display: block;
     background: transparent;
     color: var(--clr-ticket-text);
@@ -194,8 +197,11 @@ h2 {
 }
 
 .other-offices-wrapper {
-    margin: 0 auto;
-    width: fit-content;
+    width: calc(100% + 2rem);
+    max-width: calc(var(--max-width) + 2rem);
+    margin: -1rem -1rem 0;
+    display: flex;
+    justify-content: center;
 }
 
 .other-offices {
