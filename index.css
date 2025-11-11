@@ -13,12 +13,10 @@
         Courier Prime Bold,
         sans-serif;
 
-    --clr-background: #4268ff; /* hsl(41.77, 90.8%, 65.88%); */
-    /* --clr-text: black; */
+    --clr-background: #4268ff;
     --clr-text: #ffffff;
     --clr-text-secondary: #000f49;
-    /* --clr-text-disabled: hsl(0, 0%, 50%); */
-
+    --clr-highlight: #de0e57;
     --clr-ticket-text: #15297c;
     --clr-ticket-text-secondary: #4268ff;
     --clr-ticket-outline: #4268ff;
