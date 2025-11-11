@@ -1,3 +1,9 @@
+/**
+ * @typedef {Object} Exchange
+ * @property {string} id A UUID represented as a 36 character string.
+ * @property {Date} date
+ */
+
 const supabaseUrl = "https://urcdmefagpuyluzzdqgl.supabase.co";
 const supabaseKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyY2RtZWZhZ3B1eWx1enpkcWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNjI4NDYsImV4cCI6MjA3NDczODg0Nn0.WqXzT1HLImeRRJbd9VZZZHcpilKFZdRPzPvjmsMJOpY";
@@ -38,12 +44,6 @@ function tag(tagName, options) {
     }
     return element;
 }
-
-/**
- * @typedef {Object} Exchange
- * @property {string} id A UUID represented as a 36 character string.
- * @property {Date} date
- */
 
 function showLogin() {
     welcomeSubheading.innerText = "Log in to see the Admin Page!";
