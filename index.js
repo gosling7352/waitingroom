@@ -99,22 +99,22 @@ async function getQueueEntry(exchangeId, deviceId) {
  * @returns {Promise<{ queueEntry?: QueueEntry, error?: string }>}
  */
 async function drawQueueNumber(exchangeId, deviceId) {
-    let { data: queueEntry, error } = await client.rpc("draw-queue-number", {
+    let { data: queueEntries, error } = await client.rpc("draw-queue-number", {
         exchange_id: exchangeId,
         device_id: deviceId,
     });
 
-    if (error) {
+    if (error || queueEntries.length === 0) {
         console.error("Failed to draw a queue number", error);
-        return { error };
+        return { error: error ?? "Failed to draw a queue number" };
     }
 
     return {
         queueEntry: {
-            number: queueEntry.number,
-            exchange: queueEntry.exchange,
-            deviceId: queueEntry.device_id,
-            createdAt: new Date(queueEntry.created_at),
+            number: queueEntries[0].number,
+            exchange: queueEntries[0].exchange,
+            deviceId: queueEntries[0].device_id,
+            createdAt: new Date(queueEntries[0].created_at),
         },
     };
 }
