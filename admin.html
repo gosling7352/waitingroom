@@ -12,45 +12,68 @@
     </head>
     <body>
         <div class="container">
-            <h1>Waiting Room</h1>
+            <header>
+                <h1>
+                    Card<br />Exchange<br /><span class="title-location"
+                        >Augsburg</span
+                    >
+                </h1>
 
-            <h2 id="welcome-subheading"></h2>
+                <div class="header-right">
+                    <h2>Admin</h2>
+                    <button type="button" class="logout-button button hide">
+                        Log out
+                    </button>
+                </div>
+            </header>
 
-            <div id="login-container" style="display: none">
-                <div class="input-row">
-                    <label for="email-input">Email</label>
-                    <input type="text" id="email-input" placeholder="Email" />
-                </div>
-                <div class="input-row">
-                    <label for="password-input">Password</label>
-                    <input
-                        type="password"
-                        id="password-input"
-                        placeholder="Password"
-                    />
-                </div>
-                <button type="button" id="submit-login-button">Log in</button>
+            <div class="login-container hide">
+                <label for="email-input">Email</label>
+                <input
+                    type="text"
+                    class="email-input input"
+                    placeholder="Email"
+                />
+                <label for="password-input">Password</label>
+                <input
+                    type="password"
+                    class="password-input input"
+                    placeholder="Password"
+                />
+                <button type="button" class="submit-login-button button">
+                    Log in
+                </button>
             </div>
 
-            <div id="admin-dashboard-container" style="display: none">
-                <button type="button" id="logout-button">Log out</button>
-
+            <div class="admin-dashboard-container hide">
                 <h3>Create Exchange</h3>
-                <div id="create-exchange-container">
-                    <input type="date" id="create-exchange-date-input" />
-                    <button id="create-exchange-button">Create Exchange</button>
+                <div class="create-exchange-container">
+                    <input
+                        type="date"
+                        class="create-exchange-date-input input"
+                    />
+                    <button class="create-exchange-button button">
+                        Create
+                    </button>
                 </div>
 
                 <h3>Last Exchanges</h3>
-                <ul id="last-exchanges-container"></ul>
+                <ul class="last-exchanges-container"></ul>
             </div>
 
-            <div id="qr-code-container" style="display: none">
-                <button type="button" id="back-to-dashboard-button">
-                    Back to the dashboard
-                </button>
+            <div class="qr-code-container hide">
+                <h3 class="qr-code-title"></h3>
 
-                <div id="qr-code-display"></div>
+                <div class="qr-code-display"></div>
+
+                <div class="qr-code-actions">
+                    <button type="button" class="qr-code-back-button button">
+                        Back
+                    </button>
+                    <button type="button" class="qr-code-print-button button">
+                        Print
+                    </button>
+                </div>
             </div>
         </div>
     </body>
