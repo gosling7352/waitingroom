@@ -9,19 +9,17 @@ const supabaseKey =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVyY2RtZWZhZ3B1eWx1enpkcWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkxNjI4NDYsImV4cCI6MjA3NDczODg0Nn0.WqXzT1HLImeRRJbd9VZZZHcpilKFZdRPzPvjmsMJOpY";
 const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-/** @type HTMLHeadingElement */
-const welcomeSubheading = document.getElementById("welcome-subheading");
-
 /** @type HTMLDivElement */
-const loginContainer = document.getElementById("login-container");
+const loginContainer = document.querySelector(".login-container");
 /** @type HTMLDivElement */
-const adminDashboardContainer = document.getElementById(
-    "admin-dashboard-container",
+const adminDashboardContainer = document.querySelector(
+    ".admin-dashboard-container",
 );
+const qrCodeTitle = document.querySelector(".qr-code-title");
 /** @type HTMLDivElement */
-const qrCodeContainer = document.getElementById("qr-code-container");
+const qrCodeContainer = document.querySelector(".qr-code-container");
 /** @type HTMLDivElement */
-const qrCodeDisplay = document.getElementById("qr-code-display");
+const qrCodeDisplay = document.querySelector(".qr-code-display");
 
 /**
  * @template {keyof HTMLElementTagNameMap} K
@@ -45,59 +43,22 @@ function tag(tagName, options) {
     return element;
 }
 
-function showLogin() {
-    welcomeSubheading.innerText = "Log in to see the Admin Page!";
-
-    adminDashboardContainer.style.display = "none";
-    qrCodeContainer.style.display = "none";
-    loginContainer.style.display = "block";
-}
-function showAdminDashboard() {
-    welcomeSubheading.innerText = "Welcome to the Admin Page!";
-
-    loginContainer.style.display = "none";
-    qrCodeContainer.style.display = "none";
-    adminDashboardContainer.style.display = "block";
-    renderLastExchanges();
-}
-/** @param {Exchange} exchange  */
-function showQrCode(exchange) {
-    welcomeSubheading.innerText = `Register for the Card Exchange on the ${exchange.date.toLocaleDateString()}`;
-
-    loginContainer.style.display = "none";
-    adminDashboardContainer.style.display = "none";
-
-    const originSuffix = window.location.host.endsWith("github.io")
-        ? window.location.pathname.split("/").slice(0, 2).join("/")
-        : "";
-    const origin = window.location.origin + originSuffix;
-    const url = `${origin}?e=${exchange.id}`;
-
-    qrCodeDisplay.innerHTML = "";
-    new QRCode(qrCodeDisplay, url);
-
-    qrCodeContainer.style.display = "block";
-
-    renderLastExchanges();
-}
-
 // ==== LOGIN ====
 
 /** @type HTMLInputElement */
-const emailInput = document.getElementById("email-input");
+const emailInput = document.querySelector(".email-input");
 /** @type HTMLInputElement */
-const passwordInput = document.getElementById("password-input");
+const passwordInput = document.querySelector(".password-input");
 /** @type HTMLButtonElement */
-const submitLoginButton = document.getElementById("submit-login-button");
+const submitLoginButton = document.querySelector(".submit-login-button");
 submitLoginButton.addEventListener("click", async () => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    const response = await client.auth.signInWithPassword({ email, password });
-    console.log("response", response);
-    if (response.error) {
-        console.error("Failed to log the user in.", error);
+    const { error } = await client.auth.signInWithPassword({ email, password });
+    if (error) {
         // TODO: show error
+        console.error("Failed to log the user in.", error);
         return;
     }
     showAdminDashboard();
@@ -106,7 +67,7 @@ submitLoginButton.addEventListener("click", async () => {
 // ==== ADMIN DASHBOARD ====
 
 /** @type HTMLButtonElement */
-const logoutButton = document.getElementById("logout-button");
+const logoutButton = document.querySelector(".logout-button");
 logoutButton.addEventListener("click", async () => {
     const { error } = await client.auth.signOut();
     if (error) {
@@ -118,11 +79,11 @@ logoutButton.addEventListener("click", async () => {
 });
 
 /** @type HTMLInputElement */
-const createExchangeDateInput = document.getElementById(
-    "create-exchange-date-input",
+const createExchangeDateInput = document.querySelector(
+    ".create-exchange-date-input",
 );
 /** @type HTMLButtonElement */
-const createExchangeButton = document.getElementById("create-exchange-button");
+const createExchangeButton = document.querySelector(".create-exchange-button");
 createExchangeButton.addEventListener("click", async () => {
     const dateString = createExchangeDateInput.value;
     // TODO: disable button
@@ -144,8 +105,8 @@ createExchangeButton.addEventListener("click", async () => {
     renderLastExchanges();
 });
 
-const lastExchangesContainer = document.getElementById(
-    "last-exchanges-container",
+const lastExchangesContainer = document.querySelector(
+    ".last-exchanges-container",
 );
 
 async function renderLastExchanges() {
@@ -185,10 +146,12 @@ async function renderLastExchanges() {
             placeholder: "Last exchanged number",
             type: "number",
             min: 0,
+            className: "input",
         });
         const exchangeSelect = tag("select", {
             placeholder: "New exchange",
             value: index === 0 ? "" : exchanges[0].id,
+            className: "input",
             children: exchanges.entries().map(([innerIndex, exchange]) => {
                 if (innerIndex === index) return;
                 return tag("option", {
@@ -205,6 +168,7 @@ async function renderLastExchanges() {
                 exchangeSelect,
                 tag("button", {
                     innerText: "Transfer",
+                    className: "button",
                     onclick: async () => {
                         let number;
                         try {
@@ -236,6 +200,21 @@ async function renderLastExchanges() {
                         renderLastExchanges();
                     },
                 }),
+                tag("button", {
+                    innerText: "Cancel",
+                    className: "button",
+                    onclick: () => {
+                        const lastListItemChild =
+                            listItem.children[listItem.children.length - 1];
+                        if (
+                            lastListItemChild.classList.contains(
+                                "transfer-queue-to-exchange-container",
+                            )
+                        ) {
+                            lastListItemChild.remove();
+                        }
+                    },
+                }),
             ],
         });
 
@@ -247,12 +226,14 @@ async function renderLastExchanges() {
             className: "last-exchanges-entry",
             children: [
                 tag("div", {
+                    className: "last-exchanges-entry-upper",
                     children: [
                         tag("span", {
                             innerText: exchange.date.toLocaleDateString(),
                         }),
                         tag("button", {
-                            innerText: "Print the QR-Code",
+                            innerText: "Print QR-Code",
+                            className: "button",
                             onclick: () => showQrCode(exchange),
                         }),
                     ],
@@ -260,6 +241,7 @@ async function renderLastExchanges() {
                 exchanges.length > 1 &&
                     tag("button", {
                         innerText: "Transfer unexchanged numbers",
+                        className: "last-exchanges-show-transfer-button button",
                         onclick: () =>
                             showTransferContainer(index, exchange, listItem),
                     }),
@@ -272,12 +254,12 @@ async function renderLastExchanges() {
 
 // ==== QR CODE ====
 
-const backToDashboardButton = document.getElementById(
-    "back-to-dashboard-button",
-);
-backToDashboardButton.addEventListener("click", () => {
+const qrCodeBackButton = document.querySelector(".qr-code-back-button");
+qrCodeBackButton.addEventListener("click", () => {
     showAdminDashboard();
 });
+const qrCodePrintButton = document.querySelector(".qr-code-print-button");
+qrCodePrintButton.addEventListener("click", () => window.print());
 
 const initialUser = await client.auth.getUser();
 
@@ -285,4 +267,42 @@ if (initialUser.data.user == null) {
     showLogin();
 } else {
     showAdminDashboard();
+}
+
+// ==== PAGES ====
+
+function showLogin() {
+    logoutButton.classList.add("hide");
+    adminDashboardContainer.classList.add("hide");
+    qrCodeContainer.classList.add("hide");
+    loginContainer.classList.remove("hide");
+}
+function showAdminDashboard() {
+    logoutButton.classList.remove("hide");
+    loginContainer.classList.add("hide");
+    qrCodeContainer.classList.add("hide");
+    adminDashboardContainer.classList.remove("hide");
+    renderLastExchanges();
+}
+/** @param {Exchange} exchange  */
+function showQrCode(exchange) {
+    logoutButton.classList.remove("hide");
+
+    qrCodeTitle.innerText = `Register for the Card Exchange on the ${exchange.date.toLocaleDateString()}`;
+
+    loginContainer.classList.add("hide");
+    adminDashboardContainer.classList.add("hide");
+
+    const originSuffix = window.location.host.endsWith("github.io")
+        ? window.location.pathname.split("/").slice(0, 2).join("/")
+        : "";
+    const origin = window.location.origin + originSuffix;
+    const url = `${origin}?e=${exchange.id}`;
+
+    qrCodeDisplay.innerHTML = "";
+    new QRCode(qrCodeDisplay, url);
+
+    qrCodeContainer.classList.remove("hide");
+
+    renderLastExchanges();
 }

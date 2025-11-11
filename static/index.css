@@ -20,6 +20,7 @@
     --clr-ticket-text: #15297c;
     --clr-ticket-text-secondary: #4268ff;
     --clr-ticket-outline: #4268ff;
+    --clr-border: #282828;
 
     --border-radius: 0.5rem;
 
@@ -150,8 +151,8 @@ h2 {
     color: white;
     border-radius: 1rem;
     cursor: pointer;
-    border: 4px solid #282828;
-    box-shadow: #282828 6px 6px;
+    border: 4px solid var(--clr-border);
+    box-shadow: var(--clr-border) 6px 6px;
     transition: box-shadow 300ms ease-in-out;
 }
 
