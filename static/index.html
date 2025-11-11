@@ -10,32 +10,77 @@
     </head>
     <body>
         <div class="container">
-            <h1>Waiting Room</h1>
-
-            <h2>Welcome to our Card Exchange!</h2>
-
-            <p>Please consider that we change only once per Person.</p>
-
-            <a
-                href="https://offen-muenchen.de/"
-                target="_blank"
-                style="display: block; margin-bottom: 20px"
-            >
-                Link to other exchange offices
-            </a>
+            <h1>
+                Card<br />Exchange<br /><span class="title-location"
+                    >Augsburg</span
+                >
+            </h1>
 
             <div class="ticket">
-                <p id="error-display" style="display: none">
-                    There was an error when loading the page.<br />
+                <svg
+                    viewBox="0 0 353 504"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ticket-background"
+                >
+                    <path
+                        d="M48 0C48 9.38884 55.6112 17 65 17C74.3888 17 82 9.38884 82 0H92C92 9.38884 99.6112 17 109 17C118.389 17 126 9.38884 126 0H136C136 9.38884 143.835 17 153.5 17C163.165 17 171 9.38884 171 0H181C181 9.38884 188.835 17 198.5 17C208.165 17 216 9.38884 216 0H226C226 9.38884 233.611 17 243 17C252.389 17 260 9.38884 260 0H270C270 9.38884 277.611 17 287 17C296.389 17 304 9.38884 304 0H311.007C311.005 0.166448 311 0.333086 311 0.5C311 23.4198 329.58 42 352.5 42C352.667 42 352.834 41.9951 353 41.9932V462.006C352.834 462.004 352.667 462 352.5 462C329.58 462 311 480.58 311 503.5C311 503.667 311.005 503.834 311.007 504H305C305 494.611 297.389 487 288 487C278.611 487 271 494.611 271 504H261C261 494.611 253.389 487 244 487C234.611 487 227 494.611 227 504H217C217 494.611 209.165 487 199.5 487C189.835 487 182 494.611 182 504H172C172 494.611 164.165 487 154.5 487C144.835 487 137 494.611 137 504H127C127 494.611 119.389 487 110 487C100.611 487 93 494.611 93 504H83C83 494.611 75.3888 487 66 487C56.6112 487 49 494.611 49 504H40.9932C40.9951 503.834 41 503.667 41 503.5C41 480.747 22.6894 462.274 0 462.006V41.9932C22.6894 41.7253 41 23.2529 41 0.5C41 0.333086 40.9951 0.166448 40.9932 0H48Z"
+                        fill="white"
+                    />
+                </svg>
+
+                <svg
+                    viewBox="0 0 301 430"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="ticket-outline"
+                >
+                    <mask id="path-1-inside-1_225_105" fill="white">
+                        <path
+                            d="M244.934 0C255.552 23.5147 275.98 41.6479 301 49.1855V380.813C275.98 388.351 255.552 406.485 244.934 430H56.0664C45.448 406.485 25.0203 388.351 0 380.813V49.1855C25.0202 41.6479 45.4481 23.5147 56.0664 0H244.934Z"
+                        />
+                    </mask>
+                    <path
+                        d="M244.934 0L248.579 -1.64619L247.516 -4H244.934V0ZM301 49.1855H305V46.213L302.154 45.3556L301 49.1855ZM301 380.813L302.154 384.643L305 383.786V380.813H301ZM244.934 430V434H247.516L248.579 431.646L244.934 430ZM56.0664 430L52.4209 431.646L53.4837 434H56.0664V430ZM0 380.813H-4V383.786L-1.15381 384.643L0 380.813ZM0 49.1855L-1.15382 45.3556L-4 46.213V49.1855H0ZM56.0664 0V-4H53.4837L52.4209 -1.64619L56.0664 0ZM244.934 0L241.288 1.64619C252.377 26.2038 273.707 45.1409 299.846 53.0155L301 49.1855L302.154 45.3556C278.252 38.155 258.727 20.8257 248.579 -1.64619L244.934 0ZM301 49.1855H297V380.813H301H305V49.1855H301ZM301 380.813L299.846 376.983C273.707 384.858 252.377 403.796 241.288 428.354L244.934 430L248.579 431.646C258.727 409.174 278.252 391.844 302.154 384.643L301 380.813ZM244.934 430V426H56.0664V430V434H244.934V430ZM56.0664 430L59.712 428.354C48.6227 403.796 27.2929 384.858 1.15381 376.983L0 380.813L-1.15381 384.643C22.7478 391.844 42.2734 409.174 52.4209 431.646L56.0664 430ZM0 380.813H4V49.1855H0H-4V380.813H0ZM0 49.1855L1.15382 53.0155C27.2927 45.1409 48.6227 26.2038 59.712 1.64619L56.0664 0L52.4209 -1.64619C42.2734 20.8257 22.7477 38.155 -1.15382 45.3556L0 49.1855ZM56.0664 0V4H244.934V0V-4H56.0664V0Z"
+                        mask="url(#path-1-inside-1_225_105)"
+                    />
+                </svg>
+
+                <div class="ticket-content hide">
+                    <div class="ticket-line"></div>
+                    <div class="ticket-line"></div>
+
+                    <div class="number-display-wrapper">
+                        <button class="draw-button">get a number</button>
+                        <p class="number-display hide"></p>
+                    </div>
+
+                    <div class="ticket-line"></div>
+                    <div class="ticket-line"></div>
+
+                    <div class="ticket-info-grid">
+                        <span>Date:</span>
+                        <span class="date-display">DD.MM.YYYY</span>
+                        <span class="draw-time-label hide">Drawn At:</span>
+                        <span class="draw-time-display hide">DD.MM.YYYY</span>
+                    </div>
+                </div>
+
+                <p class="error-display hide">
+                    Failed to load.<br />
                     Please use this week's QR Code.
                 </p>
-
-                <p id="date-display"></p>
-                <p id="number-display">--</p>
-                <p id="draw-time-display">No number yet</p>
             </div>
 
-            <button id="draw-button">Click to get a number</button>
+            <div class="other-offices-wrapper">
+                <a
+                    href="https://offen-muenchen.de/"
+                    target="_blank"
+                    class="other-offices"
+                >
+                    &gt&gt other exchange offices &lt&lt
+                </a>
+            </div>
         </div>
     </body>
 </html>
