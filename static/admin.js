@@ -135,18 +135,16 @@ async function renderLastExchanges() {
      * @param {HTMLUListElement} listItem
      */
     function showTransferContainer(index, exchange, listItem) {
-        const existingContainers = lastExchangesContainer.querySelectorAll(
-            ".transfer-queue-to-exchange-container",
-        );
-        for (const existingContainer of existingContainers) {
-            existingContainer.remove();
+        const listItems = lastExchangesContainer.querySelectorAll("li");
+        for (const listItem of listItems) {
+            removeTransferContainer(listItem);
         }
 
         const numberInput = tag("input", {
             placeholder: "Last exchanged number",
             type: "number",
             min: 0,
-            className: "input",
+            className: "last-exchanged-number-input input",
         });
         const exchangeSelect = tag("select", {
             placeholder: "New exchange",
@@ -203,22 +201,28 @@ async function renderLastExchanges() {
                 tag("button", {
                     innerText: "Cancel",
                     className: "button",
-                    onclick: () => {
-                        const lastListItemChild =
-                            listItem.children[listItem.children.length - 1];
-                        if (
-                            lastListItemChild.classList.contains(
-                                "transfer-queue-to-exchange-container",
-                            )
-                        ) {
-                            lastListItemChild.remove();
-                        }
-                    },
+                    onclick: () => removeTransferContainer(listItem),
                 }),
             ],
         });
 
+        const showTransferButton = listItem.querySelector(
+            ".last-exchanges-show-transfer-button",
+        );
+        showTransferButton.classList.add("hide");
         listItem.appendChild(transferContainer);
+    }
+
+    /** @param {HTMLLIElement} listItem  */
+    function removeTransferContainer(listItem) {
+        const transferContainer = listItem.querySelector(
+            ".transfer-queue-to-exchange-container",
+        );
+        transferContainer?.remove();
+        const showTransferButton = listItem.querySelector(
+            ".last-exchanges-show-transfer-button",
+        );
+        showTransferButton.classList.remove("hide");
     }
 
     for (const [index, exchange] of exchanges.entries()) {
@@ -288,7 +292,14 @@ function showAdminDashboard() {
 function showQrCode(exchange) {
     logoutButton.classList.remove("hide");
 
-    qrCodeTitle.innerText = `Register for the Card Exchange on the ${exchange.date.toLocaleDateString()}`;
+    qrCodeTitle.innerText = `Register for the Card Exchange on the ${exchange.date.toLocaleDateString(
+        "en-GB",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+        },
+    )} (${exchange.date.toLocaleDateString("en-GB")})`;
 
     loginContainer.classList.add("hide");
     adminDashboardContainer.classList.add("hide");
