@@ -114,7 +114,7 @@ async function renderLastExchanges() {
         .from("exchanges")
         .select("id, date")
         .order("date", { ascending: false })
-        .limit(3);
+        .limit(5);
     if (error) {
         console.error("Failed to get the exchanges.", error);
         // TODO: show error
@@ -292,7 +292,7 @@ function showAdminDashboard() {
 function showQrCode(exchange) {
     logoutButton.classList.remove("hide");
 
-    qrCodeTitle.innerText = `Register for the Card Exchange on the ${exchange.date.toLocaleDateString(
+    qrCodeTitle.innerHTML = `Register for the Card Exchange on the<br />${exchange.date.toLocaleDateString(
         "en-GB",
         {
             day: "numeric",
